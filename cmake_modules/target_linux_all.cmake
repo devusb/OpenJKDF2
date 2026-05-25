@@ -1,6 +1,10 @@
 macro(plat_link_and_package)
     target_link_libraries(sith_engine PRIVATE PNG::PNG ZLIB::ZLIB)
-    target_link_libraries(sith_engine PRIVATE ${SDL2_COMMON_LIBS} GL ${OPENAL_LIBRARY} GLEW::GLEW ${GTK3_LIBRARIES})
+    if(TARGET_LINUX_64_GLES)
+        target_link_libraries(sith_engine PRIVATE ${SDL2_COMMON_LIBS} GLESv2 EGL ${OPENAL_LIBRARY} ${GTK3_LIBRARIES})
+    else()
+        target_link_libraries(sith_engine PRIVATE ${SDL2_COMMON_LIBS} GL ${OPENAL_LIBRARY} GLEW::GLEW ${GTK3_LIBRARIES})
+    endif()
      
     if(TARGET_USE_PHYSFS)
         target_link_libraries(sith_engine PRIVATE PhysFS::PhysFS_s)
